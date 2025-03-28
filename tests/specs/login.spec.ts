@@ -54,6 +54,12 @@ test.describe('Login Tests', () => {
         type: 'png',
       });
     }
+
+    testInfo.attachments.push({
+      name: 'screenshot',
+      path: `./screenshots/${testInfo.title}.png`,
+      contentType: 'image/png',
+    });
   
     await pageFixture.page.close();
     await context.close();

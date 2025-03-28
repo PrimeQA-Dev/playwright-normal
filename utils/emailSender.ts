@@ -9,7 +9,8 @@ let failed = 0;
 // Define constants for email configuration
 const SENDER_EMAIL = "automationreport477@gmail.com";
 const SENDER_PASSWORD = "jepg jwti wkdb lajf";
-const RECEIVER_EMAIL = "automationreport477@gmail.com";
+const RECEIVER_EMAIL = "harshvyas2216@gmail.com";
+
 
 function getTestResults() {
   const data = fs.readFileSync(testResultsPath, 'utf8');
@@ -29,7 +30,7 @@ getTestResults()
 
 const resultsFilePath = path.resolve(__dirname, '../test-results/testResults.json');  
   const reportHtmlPath ="test-results/index.html"; 
-  console.log("111111111t")
+  console.log("--Sending Mail......")
   sendEmail("Test Execution Report", reportHtmlPath, 
     passed, 
     failed, 
