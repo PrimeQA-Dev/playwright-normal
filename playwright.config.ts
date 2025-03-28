@@ -4,7 +4,6 @@ import { Browser, Page } from '@playwright/test';
  
 export default defineConfig({
   testDir: './tests/specs',  // Your test directory
-  testMatch: '**/*.spec.ts',
   timeout: 60000,
   reporter: [
     ['html', { outputFolder: 'test-results', open: 'never' }],  // Generate HTML report in 'test-results' folder
