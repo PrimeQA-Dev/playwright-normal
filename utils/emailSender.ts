@@ -2,7 +2,7 @@ import nodemailer from 'nodemailer';
 import fs from 'fs';
 import path from 'path';
 
-const testResultsPath = path.join(__dirname, '../test-results/test-results.json');
+const testResultsPath = path.join(__dirname, '../playwright-report/test-results.json');
 let passed = 0;
 let failed = 0;
 

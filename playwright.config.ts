@@ -6,8 +6,8 @@ export default defineConfig({
   testDir: './tests/specs',  // Your test directory
   timeout: 60000,
   reporter: [
-    ['html', {open: 'never' }],  // Generate HTML report in 'test-results' folder
-    ['json', { outputFile: 'playwright-report/test-results.json', open: 'never' }] ]
+    ['html', { outputFolder: 'playwright-report', open: 'never' }],  
+    ['json', { outputFile: 'playwright-report/test-results.json', open: 'never' }]]
     });
 
     
