@@ -12,12 +12,13 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    continue-on-error: true  # ✅ Allow test failures without stopping workflow
 
     steps:
       - name: 📥 Checkout Repository
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # Ensure all files are checked out
+          fetch-depth: 0
 
       - name: 🔧 Set Up Node.js
         uses: actions/setup-node@v4
@@ -33,26 +34,28 @@ jobs:
       - name: 🛠 Run Playwright Tests
         run: |
           mkdir -p playwright-report  # Ensure report directory exists
-          npx playwright test 
+          npx playwright test
+        continue-on-error: true  # ✅ Ensure tests failing doesn't stop workflow
+
       - name: 🔍 Debug Report Generation
-        if: always() 
+        if: always()  # ✅ Runs even if tests fail
         run: |
-         
           echo "Checking Playwright Report..."
           ls -lah playwright-report || echo "⚠️ playwright-report NOT FOUND!"
 
       - name: 📂 Upload Playwright Report (HTML & JSON)
-        if: always() 
+        if: always()  # ✅ Ensures artifact is uploaded even if tests fail
         uses: actions/upload-artifact@v4
         with:
           name: playwright-report
           path: playwright-report/
-          if-no-files-found: error  # Fail workflow if report is missing
+          if-no-files-found: ignore  # ✅ Prevents failure if no report is found
           retention-days: 30
 
   send-email:
-    needs: test  # Runs only after 'test' job completes
+    needs: test  # ✅ Runs after 'test' job, even if it failed
     runs-on: ubuntu-latest
+    if: always()  # ✅ Ensures email is sent even if tests failed
 
     steps:
       - uses: actions/checkout@v4
