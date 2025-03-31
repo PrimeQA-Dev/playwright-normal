@@ -19,10 +19,12 @@ jobs:
       run: npx playwright install --with-deps
     - name: Run Playwright tests
       run: npx playwright test
+      working-directory: tests/specs/
+    - name: Debug Filesystem
+      if: always()  
+      run: ls
     - name: Debug test-results Folder
       run: ls -lah test-results || echo "test-results not found"
-    - name: Fix permissions
-      run: chmod -R 777 test-results
     - uses: actions/upload-artifact@v4
       if: always()  # Ensures it runs even if tests fail
       with:
