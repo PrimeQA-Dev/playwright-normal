@@ -18,7 +18,7 @@ jobs:
     - name: Install Playwright Browsers
       run: npx playwright install --with-deps
     - name: Run Playwright tests
-      run: npx playwright test
+      run: npx playwright test --reporter='["html"],["json",{"outputFile":"playwright-report/test-results.json"}]'
       working-directory: tests/specs/
     - name: Debug Filesystem
       if: always()  
