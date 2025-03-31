@@ -36,10 +36,12 @@ jobs:
           npx playwright test 
       - name: 🔍 Debug Report Generation
         run: |
+          if: always() 
           echo "Checking Playwright Report..."
           ls -lah playwright-report || echo "⚠️ playwright-report NOT FOUND!"
 
       - name: 📂 Upload Playwright Report (HTML & JSON)
+        if: always() 
         uses: actions/upload-artifact@v4
         with:
           name: playwright-report
