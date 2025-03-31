@@ -19,16 +19,30 @@ jobs:
       run: npx playwright install --with-deps
     - name: Run Playwright tests
       run: npx playwright test
-      working-directory: tests/specs/
-    - name: Debug Filesystem
-      if: always()  
-      run: ls
+    - name: Debug test-results Folder
+      run: ls -lah test-results || echo "test-results not found"
+    - name: Fix permissions
+      run: chmod -R 777 test-results
     - uses: actions/upload-artifact@v4
-      if: always()  
+      if: always()  # Ensures it runs even if tests fail
+      with:
+        name: test-results
+        path: ${{ github.workspace }}/test-results/
+        retention-days: 30
+
+  send-email:
+    needs: test  # Runs only after 'test' job completes
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+    - name: Install dependencies
+      run: npm install
+    - uses: actions/download-artifact@v4
       with:
         name: test-results
         path: test-results/
-        retention-days: 30
     - name: Send Email
-      if: always()  
       run: npm run send-email
