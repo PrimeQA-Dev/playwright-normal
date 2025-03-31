@@ -21,8 +21,10 @@ jobs:
       run: npx playwright test
       working-directory: tests/specs/
     - name: Debug Filesystem
+      if: always()  
       run: ls -R test-results/
     - uses: actions/upload-artifact@v4
+      if: always()  
       with:
         name: test-results
         path: test-results/
