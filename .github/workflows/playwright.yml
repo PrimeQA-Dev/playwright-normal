@@ -33,8 +33,7 @@ jobs:
       - name: 🛠 Run Playwright Tests
         run: |
           mkdir -p playwright-report  # Ensure report directory exists
-          npx playwright test --reporter='["html",{"outputFolder":"playwright-report"}],["json",{"outputFile":"playwright-report/test-results.json"}]'
-
+          npx playwright test 
       - name: 🔍 Debug Report Generation
         run: |
           echo "Checking Playwright Report..."
