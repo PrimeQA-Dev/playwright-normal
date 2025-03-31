@@ -28,7 +28,7 @@ jobs:
       run: ls -lah playwright-report || echo "playwright-report not found"
     - name: Fix permissions
       if: always()  # Ensures it runs even if tests fail
-      run: chmod -R 777 test-results
+      run: chmod -R 777 playwright-report
     - uses: actions/upload-artifact@v4
       if: always()  # Ensures it runs even if tests fail
       with:

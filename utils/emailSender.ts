@@ -29,7 +29,7 @@ getTestResults()
 
 
 // const resultsFilePath = path.resolve(__dirname, '../test-results/testResults.json');  
-  const reportHtmlPath ="test-results/index.html"; 
+  const reportHtmlPath ="playwright-report/index.html"; 
   console.log("--Sending Mail......")
   sendEmail("Test Execution Report", reportHtmlPath, 
     passed, 
