@@ -50,14 +50,14 @@ test.describe('Login Tests', () => {
     // Take screenshot if the test failed
     if (testInfo.status === 'failed') {
       await pageFixture.page.screenshot({
-        path: `./screenshots/${testInfo.title}.png`,
+        path: `../../playwright-report/data/${testInfo.title}.png`,
         type: 'png',
       });
     }
 
     testInfo.attachments.push({
       name: 'screenshot',
-      path: `./screenshots/${testInfo.title}.png`,
+      path: `../../playwright-report/data/${testInfo.title}.png`,
       contentType: 'image/png',
     });
   
