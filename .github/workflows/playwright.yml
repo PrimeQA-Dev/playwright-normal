@@ -1,51 +1,73 @@
-name: Playwright Tests
+name: Playwright CI/CD
+
 on:
   push:
-    branches: [ main, master ]
+    branches:
+      - main
   pull_request:
-    branches: [ main, master ]
+    branches:
+      - main
+  workflow_dispatch:  # Allows manual trigger
+
 jobs:
   test:
-    timeout-minutes: 60
     runs-on: ubuntu-latest
+
     steps:
-    - uses: actions/checkout@v4
-    - uses: actions/setup-node@v4
-      with:
-        node-version: '20'
-    - name: Install dependencies
-      run: npm install
-    - name: Install Playwright Browsers
-      run: npx playwright install --with-deps
-    - name: Run Playwright tests
-      run: npx playwright test 
-      working-directory: tests/specs/
-    - name: Debug Filesystem
-      if: always()  
-      run: ls
-    - name: Debug playwright-report Folder
-      if: always() 
-      run: ls -R ${{ github.workspace }}/playwright-report/
-    - uses: actions/upload-artifact@v4
-      if: always()  # Ensures it runs even if tests fail
-      with:
-        name: playwright-report
-        path: ${{ github.workspace }}/playwright-report/
-        retention-days: 30
+      - name: 📥 Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Ensure all files are checked out
+
+      - name: 🔧 Set Up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: 📦 Install Dependencies
+        run: npm install --no-fund --no-audit
+
+      - name: 🎭 Install Playwright Browsers
+        run: npx playwright install --with-deps
+
+      - name: 🛠 Run Playwright Tests
+        run: |
+          mkdir -p playwright-report  # Ensure report directory exists
+          npx playwright test --reporter='["html",{"outputFolder":"playwright-report"}],["json",{"outputFile":"playwright-report/test-results.json"}]'
+
+      - name: 🔍 Debug Report Generation
+        run: |
+          echo "Checking Playwright Report..."
+          ls -lah playwright-report || echo "⚠️ playwright-report NOT FOUND!"
+
+      - name: 📂 Upload Playwright Report (HTML & JSON)
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: playwright-report/
+          if-no-files-found: error  # Fail workflow if report is missing
+          retention-days: 30
 
   send-email:
     needs: test  # Runs only after 'test' job completes
     runs-on: ubuntu-latest
+
     steps:
-    - uses: actions/checkout@v4
-    - uses: actions/setup-node@v4
-      with:
-        node-version: '20'
-    - name: Install dependencies
-      run: npm install
-    - uses: actions/download-artifact@v4
-      with:
-        name: playwright-report
-        path: playwright-report/
-    - name: Send Email
-      run: npm run send-email
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: 📦 Install Dependencies
+        run: npm install --no-fund --no-audit
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: playwright-report
+          path: playwright-report/
+
+      - name: 🔍 Debug Downloaded Report
+        run: ls -lah playwright-report || echo "⚠️ playwright-report NOT FOUND!"
+
+      - name: 📧 Send Email
+        run: npm run send-email
