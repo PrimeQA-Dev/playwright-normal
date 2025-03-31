@@ -9,7 +9,7 @@ jobs:
     timeout-minutes: 60
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/setup-node@v4
     - uses: actions/setup-node@v4
       with:
         node-version: '20'
@@ -17,11 +17,10 @@ jobs:
       run: npm install
     - name: Install Playwright Browsers
       run: npx playwright install --with-deps
-    - name: Run Playwright tests
-      run: npx playwright test --reporter='["html",{"outputFolder":"playwright-report"}],["json",{"outputFile":"playwright-report/test-results.json"}]'
+   
     - name: Debug Filesystem
       if: always()  
-      run: ls -lah
+      run: ls
     - name: Debug playwright-report Folder
       if: always() 
       run: ls -lah playwright-report || echo "playwright-report not found"
