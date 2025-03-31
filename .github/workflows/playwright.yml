@@ -26,15 +26,15 @@ jobs:
 
       - name: 📦 Install Dependencies
         run: npm install --no-fund --no-audit
-        working-directory: playwright-automation
+        working-directory: playwright-normal
 
       - name: 🎭 Install Playwright Browsers
         run: npx playwright install --with-deps
-        working-directory: playwright-automation
+        working-directory: playwright-normal
 
       - name: Check TestData JSON
         run: ls -R
-        working-directory: playwright-automation
+        working-directory: playwright-normal
 
       - name: 🛠 Run Playwright tests
         run: npx playwright test || echo "Tests failed, capturing artifacts..."
