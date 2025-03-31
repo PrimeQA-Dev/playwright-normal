@@ -18,22 +18,21 @@ jobs:
     - name: Install Playwright Browsers
       run: npx playwright install --with-deps
     - name: Run Playwright tests
-      run: npx playwright test --reporter='["html"],["json",{"outputFile":"playwright-report/test-results.json"}]'
-      working-directory: tests/specs/
+      run: npx playwright test --reporter='["html",{"outputFolder":"playwright-report"}],["json",{"outputFile":"playwright-report/test-results.json"}]'
     - name: Debug Filesystem
       if: always()  
-      run: ls
+      run: ls -lah
     - name: Debug playwright-report Folder
       if: always() 
       run: ls -lah playwright-report || echo "playwright-report not found"
     - name: Fix permissions
-      if: always()  # Ensures it runs even if tests fail
+      if: always()  
       run: chmod -R 777 playwright-report
     - uses: actions/upload-artifact@v4
-      if: always()  # Ensures it runs even if tests fail
+      if: always()  
       with:
         name: playwright-report
-        path: ${{ github.workspace }}/playwright-report/
+        path: playwright-report/
         retention-days: 30
 
   send-email:
@@ -50,5 +49,8 @@ jobs:
       with:
         name: playwright-report
         path: playwright-report/
+    - name: Debug playwright-report Folder
+      if: always() 
+      run: ls -lah playwright-report || echo "playwright-report not found"
     - name: Send Email
       run: npm run send-email
