@@ -35,8 +35,9 @@ jobs:
           mkdir -p playwright-report  # Ensure report directory exists
           npx playwright test 
       - name: 🔍 Debug Report Generation
+        if: always() 
         run: |
-          if: always() 
+         
           echo "Checking Playwright Report..."
           ls -lah playwright-report || echo "⚠️ playwright-report NOT FOUND!"
 
