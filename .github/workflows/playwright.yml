@@ -22,7 +22,7 @@ jobs:
       working-directory: tests/specs/
     - name: Debug Filesystem
       if: always()  
-      run: ls -R test-results/
+      run: ls
     - uses: actions/upload-artifact@v4
       if: always()  
       with:
