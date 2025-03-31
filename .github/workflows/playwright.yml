@@ -17,12 +17,9 @@ jobs:
       run: npm install
     - name: Install Playwright Browsers
       run: npx playwright install --with-deps
-    - name: Debug Filesystem
-      run: ls -R tests/
-    - name: Compile TypeScript
-      run: npx tsc
     - name: Run Playwright tests
-      run: npx playwright test --config="playwright.config.ts"
+      run: npx playwright test
+      working-directory: playwright-normal
     - uses: actions/upload-artifact@v4
       if: ${{ !cancelled() }}
       with:
