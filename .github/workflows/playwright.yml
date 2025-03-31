@@ -34,7 +34,7 @@ jobs:
       - name: 🛠 Run Playwright Tests
         run: |
           mkdir -p playwright-report  # Ensure report directory exists
-          npx playwright test
+          npx playwright test 
         continue-on-error: true  # ✅ Ensure tests failing doesn't stop workflow
 
       - name: 🔍 Debug Report Generation
