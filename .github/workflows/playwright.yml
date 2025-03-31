@@ -24,6 +24,7 @@ jobs:
       if: always()  
       run: ls
     - name: Debug test-results Folder
+      if: always() 
       run: ls -lah test-results || echo "test-results not found"
     - uses: actions/upload-artifact@v4
       if: always()  # Ensures it runs even if tests fail
